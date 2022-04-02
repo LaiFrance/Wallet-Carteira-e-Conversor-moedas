@@ -26,7 +26,6 @@ class Login extends React.Component {
     const password = 6;
     const passwordValidation = senha.length >= password;
     const emailValidation = email.includes('@') && email.includes('.com');
-
     const validaEmaileSenha = passwordValidation && emailValidation;
 
     this.setState({
