@@ -1,21 +1,20 @@
 // Esse reducer será responsável por tratar as informações da pessoa usuária
+// const EMAIL_ACTION = 'EMAIL_ACTION';
 
 const INITIAL_STATE = {
 
-  email: 'alguem@email.com',
+  email: '',
 
 };
 
-const emailReducer = (state = INITIAL_STATE, action) => {
+const user = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-  case 'VALID_EMAIL':
+  case 'EMAIL_ACTION':
     return {
-      ...state,
-      email: 'alguem@email.com',
+      email: action.email,
     };
-  default:
-    return state;
+  default: return state;
   }
 };
 
-export default emailReducer;
+export default user;

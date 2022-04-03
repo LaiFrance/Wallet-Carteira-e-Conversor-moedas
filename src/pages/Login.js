@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 import Logo from '../asserts/Logo.png';
 import './login.css';
 
@@ -78,4 +79,8 @@ class Login extends React.Component {
   }
 }
 
-export default Login;
+const mapStateToProps = (store) => ({
+  email: store.user.email,
+});
+
+export default connect(mapStateToProps)(Login);

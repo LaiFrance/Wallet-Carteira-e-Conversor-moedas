@@ -6,11 +6,12 @@ const INITIAL_STATE = {
   expenses: [],
 };
 
-const moedaReducer = (state = INITIAL_STATE, action) => {
+const wallet = (state = INITIAL_STATE, action) => {
   switch (action.type) {
+  case 'NEW_ACTION': return state;
   default:
     return state;
   }
 };
 
-export default moedaReducer;
+export default wallet;
