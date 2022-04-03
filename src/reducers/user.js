@@ -3,7 +3,7 @@
 
 const INITIAL_STATE = {
 
-  email: '',
+  email: 'alguem@email.com',
 
 };
 

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Logo from '../asserts/Logo.png';
 import './login.css';
+import { validaEmail } from '../actions/validaEmail';
 
 class Login extends React.Component {
   constructor(props) {
@@ -36,6 +37,7 @@ class Login extends React.Component {
 
   render() {
     const { email, senha, isButtonDisabled } = this.state;
+    const { clickLogin } = this.props;
     return (
       <div className="container-center">
         <div className="login">
@@ -66,6 +68,7 @@ class Login extends React.Component {
                 className="btn-login"
                 disabled={ isButtonDisabled }
                 type="submit"
+                onClick={ () => clickLogin(email) }
                 data-testid="login-submit-button"
 
               >
@@ -83,4 +86,9 @@ const mapStateToProps = (store) => ({
   email: store.user.email,
 });
 
-export default connect(mapStateToProps)(Login);
+// MAPDISPATCH
+const mapDispatchToProps = (dispatch) => ({
+  clickLogin: (email) => dispatch(validaEmail(email)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
