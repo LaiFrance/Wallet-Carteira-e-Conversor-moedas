@@ -8,6 +8,6 @@ import wallet from './wallet';
 // sempre vai receber o estado e a adição
 // recebe as actions alterando ou não o estado global
 
-const listReducer = combineReducers({ user, wallet });
+const rootReducer = combineReducers({ user, wallet });
 
-export default listReducer;
+export default rootReducer;
