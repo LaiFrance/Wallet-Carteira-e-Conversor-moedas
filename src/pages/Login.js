@@ -92,6 +92,7 @@ const mapDispatchToProps = (dispatch) => ({
   clickLogin: (email) => dispatch(validaEmail(email)),
 });
 
+// ADD LOGIN COMO Proptypes
 Login.propTypes = {
   clickLogin: Proptypes.func,
 }.isRequired;
