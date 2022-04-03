@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import Proptypes from 'prop-types';
 import Logo from '../asserts/Logo.png';
 import './login.css';
 import { validaEmail } from '../actions/validaEmail';
@@ -90,5 +91,9 @@ const mapStateToProps = (store) => ({
 const mapDispatchToProps = (dispatch) => ({
   clickLogin: (email) => dispatch(validaEmail(email)),
 });
+
+Login.propTypes = {
+  clickLogin: Proptypes.func,
+}.isRequired;
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);
