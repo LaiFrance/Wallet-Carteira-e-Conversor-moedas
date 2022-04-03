@@ -1,5 +1,6 @@
 // Coloque aqui suas actions
+import { VALID_EMAIL } from '../tests/helpers/constants';
 
-const newAction = (state) => ({ type: 'NEW_ACTION', state }); // ESTRUTURA DO OBJETO
+export const minhaAction = (email) => ({ type: VALID_EMAIL, email }); // ESTRUTURA DO OBJETO
 
-export default newAction;
+export default minhaAction;
