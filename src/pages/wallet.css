@@ -1,35 +1,41 @@
-.container-center {
-  align-items: center;
+.container-Wallet {
+  align-items: baseline;
   background: #6c7a89;
-  display: flex;
+  display: inline-flex;
   flex-direction: row;
   height: 100vh;
   justify-content: center;
   width: 100vw;
 }
 
-.login {
+.wallet {
   align-items: center;
   background: #eaeaec;
   border-radius: 20px;
   display: flex;
   flex-direction: column;
-  height: 550px;
-  justify-content: center;
-  width: 600px;
-}
-
-.login-area {
-  background-color: #181c2e;
-  display: flex;
+  height: 10px;
   justify-content: center;
   width: 100%;
 }
 
-.login-area img {
-  height: 130px;
+.wallet-area {
+  background-color: #181c2e;
+  justify-content: center;
+  width: 100%;
+}
+
+form , input , h1 {
+  align-items: flex-end;
+  margin: 0;
+  margin-top: 0;
+  padding: 0;
+  width: 100%;
+}
+
+img {
+  height: 200px;
   padding: 20px;
-  width: 170px;
 }
 
 form {

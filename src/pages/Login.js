@@ -85,6 +85,7 @@ class Login extends React.Component {
 
 const mapStateToProps = (store) => ({
   email: store.user.email,
+  wallet: store.wallet,
 });
 
 // MAPDISPATCH
