@@ -3,11 +3,17 @@ import './wallet.css';
 import { connect } from 'react-redux';
 import propTypes from 'prop-types';
 import Logo from '../asserts/Logo.png';
+import { fetchCurrency } from '../actions';
+import '../services/serviceapi';
 
 class Wallet extends React.Component {
-  componentDidMount(){
-    //requisição da API
+  componentDidMount() {
+    // requisição da API
+    const { fetchCurrencyprops } = this.props;
+    fetchCurrencyprops();
+    console.log(this.props);
   }
+
   render() {
     const { email } = this.props;
     return (
@@ -47,5 +53,13 @@ Wallet.propTypes = {
   email: propTypes.string,
 }.isRequired;
 
-const mapStateToProps = (state) => ({ email: state.user.email });
-export default connect(mapStateToProps)(Wallet);
+const mapStateToProps = (state) => ({
+  email: state.user.email,
+  wallet: state.wallet,
+});
+
+// usar o Thunk api
+const mapDispatchToProps = (dispatch) => ({
+  fetchCurrencyprops: () => dispatch(fetchCurrency()),
+});
+export default connect(mapStateToProps, mapDispatchToProps)(Wallet);
