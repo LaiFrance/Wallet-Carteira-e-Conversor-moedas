@@ -5,6 +5,9 @@ import propTypes from 'prop-types';
 import Logo from '../asserts/Logo.png';
 
 class Wallet extends React.Component {
+  componentDidMount(){
+    //requisição da API
+  }
   render() {
     const { email } = this.props;
     return (

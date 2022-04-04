@@ -6,10 +6,14 @@ export const requestCurrencyAction = () => ({
   type: REQUEST_CURRENCY_ACTION,
 });
 
-export const receiveCurrencyActionSuccess = () => ({
+export const receiveCurrencyActionSuccess = ({ wallet }) => ({
   type: RECEIVE_CURRENCY_ACTION_SUCCESS,
+  currencies: wallet.currencies,
+  expenses: wallet.expenses,
+
 });
 
 export const requestCurrencyActionFailure = () => ({
   type: RECEIVE_CURRENCY_ACTION_FAILURE,
+  error,
 });
