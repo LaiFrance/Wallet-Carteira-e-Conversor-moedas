@@ -6,12 +6,17 @@ const INITIAL_STATE = {
   expenses: [],
 };
 
-const wallet = (state = INITIAL_STATE, action) => {
+function wallet(state = INITIAL_STATE, action) {
   switch (action.type) {
-  case 'NEW_ACTION': return state;
+  case 'CURRENCY_ACTION':
+    return {
+      ...state,
+      currencies: action.currencies,
+      expenses: action.expenses,
+    };
   default:
     return state;
   }
-};
+}
 
 export default wallet;

@@ -1,9 +1,12 @@
 import React from 'react';
-import Logo from '../asserts/Logo.png';
 import './wallet.css';
+import { connect } from 'react-redux';
+import propTypes from 'prop-types';
+import Logo from '../asserts/Logo.png';
 
 class Wallet extends React.Component {
   render() {
+    const { email } = this.props;
     return (
       <div className="container-wallet">
         <div className="wallet">
@@ -13,22 +16,18 @@ class Wallet extends React.Component {
 
           <form>
             <h1>TrybeWallet</h1>
-            <input
-              data-testid="email-field"
-              type="email"
-              name="email"
-
-            />
-            <input
-              data-testid="total-field"
-              type="number"
-              name="Despesas"
-              value={ 0 }
-
-            />
+            <p data-testid="email-field" className="email-field">
+              { email }
+              {' '}
+            </p>
+            DESPESAS:
+            <p className="despesas" data-testid="total-field">0 </p>
+            MOEDA:
             <select
               data-testid="header-currency-field"
+
             >
+
               <option value="BRL">BRL</option>
               <option value=" USD"> USD</option>
               <option value="EUR">EUR</option>
@@ -41,4 +40,9 @@ class Wallet extends React.Component {
   }
 }
 
-export default Wallet;
+Wallet.propTypes = {
+  email: propTypes.string,
+}.isRequired;
+
+const mapStateToProps = (state) => ({ email: state.user.email });
+export default connect(mapStateToProps)(Wallet);

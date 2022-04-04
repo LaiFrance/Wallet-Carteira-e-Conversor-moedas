@@ -1,6 +1,6 @@
 // Coloque aqui suas actions
-import { VALID_EMAIL } from '../tests/helpers/constants';
+const EMAIL_ACTION = 'EMAIL_ACTION';
 
-export const validaEmail = (email) => ({ type: VALID_EMAIL, email }); // ESTRUTURA DO OBJETO
+export const validaEmail = (email) => ({ type: EMAIL_ACTION, email }); // ESTRUTURA DO OBJETO
 
 export default validaEmail;

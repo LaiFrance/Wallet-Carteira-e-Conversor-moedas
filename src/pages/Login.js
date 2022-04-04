@@ -14,6 +14,7 @@ class Login extends React.Component {
       senha: '',
       isButtonDisabled: true,
     };
+    this.handleChange = this.handleChange.bind(this);
   }
 
   handleChange = ({ target }) => {
@@ -38,7 +39,7 @@ class Login extends React.Component {
 
   render() {
     const { email, senha, isButtonDisabled } = this.state;
-    const { clickLogin } = this.props;
+    const { clickLogin, history } = this.props;
     return (
       <div className="container-center">
         <div className="login">
@@ -69,7 +70,10 @@ class Login extends React.Component {
                 className="btn-login"
                 disabled={ isButtonDisabled }
                 type="submit"
-                onClick={ () => clickLogin(email) }
+                onClick={ () => {
+                  clickLogin(email);
+                  history.push('/carteira');
+                } }
                 data-testid="login-submit-button"
 
               >
@@ -84,7 +88,7 @@ class Login extends React.Component {
 }
 
 const mapStateToProps = (store) => ({
-  email: store.user.email,
+  email: store.email,
   wallet: store.wallet,
 });
 
