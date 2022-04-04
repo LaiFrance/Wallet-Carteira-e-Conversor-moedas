@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import Proptypes from 'prop-types';
 import Logo from '../asserts/Logo.png';
 import './login.css';
-import { validaEmail } from '../actions/validaEmail';
+import { validaEmail } from '../actions';
 
 class Login extends React.Component {
   constructor(props) {
@@ -14,7 +14,6 @@ class Login extends React.Component {
       senha: '',
       isButtonDisabled: true,
     };
-    this.handleChange = this.handleChange.bind(this);
   }
 
   handleChange = ({ target }) => {
@@ -39,7 +38,7 @@ class Login extends React.Component {
 
   render() {
     const { email, senha, isButtonDisabled } = this.state;
-    const { clickLogin, history } = this.props;
+    const { clickLogin } = this.props;
     return (
       <div className="container-center">
         <div className="login">
@@ -70,10 +69,7 @@ class Login extends React.Component {
                 className="btn-login"
                 disabled={ isButtonDisabled }
                 type="submit"
-                onClick={ () => {
-                  clickLogin(email);
-                  history.push('/carteira');
-                } }
+                onClick={ () => clickLogin(email) }
                 data-testid="login-submit-button"
 
               >
@@ -88,8 +84,7 @@ class Login extends React.Component {
 }
 
 const mapStateToProps = (store) => ({
-  email: store.email,
-  wallet: store.wallet,
+  email: store.user.email,
 });
 
 // MAPDISPATCH
