@@ -1,14 +1,15 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import Proptypes from 'prop-types';
+import proptypes from 'prop-types';
 import Header from './Header';
 import { fetchCurrency } from '../actions';
 
 class Wallet extends React.Component {
-  componentDidMount() {
+  async componentDidMount() {
     // requisição da API
     const { fetchCurrencyprops } = this.props;
-    fetchCurrencyprops();
+    const data = await fetchCurrencyprops();
+    console.log(data);
   }
 
   render() {
@@ -20,13 +21,17 @@ class Wallet extends React.Component {
   }
 }
 
+Wallet.propTypes = {
+  fetchCurrencyprops: proptypes.func,
+}.isRequired;
+
+const mapStateToProps = (state) => ({
+  currencies: state.wallet.currencies,
+});
+
 // usar o Thunk api
 const mapDispatchToProps = (dispatch) => ({
   fetchCurrencyprops: () => dispatch(fetchCurrency()),
 });
 
-Wallet.propTypes = {
-  fetchCurrencyprops: Proptypes.Func,
-}.isRequired;
-
-export default connect(null, mapDispatchToProps)(Wallet);
+export default connect(mapStateToProps, mapDispatchToProps)(Wallet);
