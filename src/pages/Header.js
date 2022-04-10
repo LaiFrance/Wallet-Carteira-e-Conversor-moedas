@@ -9,7 +9,8 @@ class Header extends React.Component {
   } */
 
   render() {
-    const { email, despesas } = this.props;
+    const { email, expenses, currencies } = this.props;
+    const currenciesArr = Object.values(currencies);
     return (
       <header className="container-header">
         <h1>TrybeWallet</h1>
@@ -17,11 +18,33 @@ class Header extends React.Component {
           {' '}
           { email }
         </p>
-        DESPESAS:
-        {despesas.length > 0 ? (<p data-testid="total-field" />)
+        expenses:
+        {expenses.length > 0 ? (<p data-testid="total-field" />)
           : (<p data-testid="total-field">0</p>)}
         MOEDA:
         <p data-testid="header-currency-field">BRL</p>
+        <input
+          name="currencies"
+          type="text"
+        />
+        <select
+          name="currency"
+          data-testid="currency-input"
+          arial-label="moeda"
+          value={ currencies }
+        >
+          {
+            currenciesArr.map((coin, index) => (
+              <option
+                key={ index }
+                data-testid={ coin }
+                value={ coin }
+              >
+                {coin}
+              </option>))
+          }
+        </select>
+        ))
       </header>
 
     );
@@ -30,7 +53,8 @@ class Header extends React.Component {
 
 const mapStateToProps = (state) => ({
   email: state.user.email,
-  despesas: state.wallet.expenses,
+  expenses: state.wallet.expenses,
+  currencies: state.wallet.currencies,
 });
 
 Header.propTypes = {
