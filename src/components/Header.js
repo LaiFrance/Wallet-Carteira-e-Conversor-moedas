@@ -31,14 +31,14 @@ class Header extends React.Component {
           name="currency"
           data-testid="currency-input"
           arial-label="moeda"
-          value={ currencies }
+          value="0"
         >
           {
             currenciesArr.map((coin, index) => (
               <option
                 key={ index }
                 data-testid={ coin }
-                value={ coin }
+                value="0"
               >
                 {coin}
               </option>))

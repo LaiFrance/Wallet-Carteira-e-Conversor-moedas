@@ -64,6 +64,7 @@ class WalletForm extends Component {
 
           <span>Valor:</span>
           <input
+            id=""
             name="value"
             data-testid="value-input"
             type="number"

@@ -15,6 +15,12 @@ function walletReducer(state = INITIAL_STATE, action) {
   };
     /* currencies: action.currencies,
       expenses: action.expenses, */
+
+  case 'REQUEST_ASK': return { ...state };
+  case 'RECEIVE_ASK': return {
+    ...state,
+    expenses: action.expenses,
+  };
   default:
     return state;
   }
