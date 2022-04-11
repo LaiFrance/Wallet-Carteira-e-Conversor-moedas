@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import './index.css';
+// import './index.css';
 import { deleteExpense } from '../actions';
 // import PropTypes from 'prop-types';
 // import { connect } from 'react-redux';
