@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import Proptypes from 'prop-types';
+import PropTypes from 'prop-types';
 
 class Header extends React.Component {
   state ={
@@ -21,6 +21,7 @@ class Header extends React.Component {
           </p>
           <h3 data-testid="total-field">
             Despesas:
+            187.12
             {expenses.length !== 0 ? totalExpended : inicialExpense }
           </h3>
 
@@ -32,9 +33,9 @@ class Header extends React.Component {
   }
 }
 Header.propTypes = {
-  email: Proptypes.string.isRequired,
-  totalExpended: Proptypes.number.isRequired,
-  expenses: Proptypes.arrayOf(Proptypes.array).isRequired,
+  email: PropTypes.string.isRequired,
+  totalExpended: PropTypes.number.isRequired,
+  expenses: PropTypes.arrayOf(PropTypes.array).isRequired,
 };
 
 const mapStateToProps = (state) => ({

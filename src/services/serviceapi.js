@@ -6,5 +6,4 @@ const getCurrencyData = async () => {
 
   return response.ok ? Promise.resolve(json) : Promise.reject(json);
 };
-console.log(getCurrencyData());
 export default getCurrencyData;

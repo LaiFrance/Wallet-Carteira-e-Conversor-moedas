@@ -1,20 +1,19 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { fetchCurrency } from '../actions';
+import { fetchCurrency, createState } from '../actions';
 // A tabela deve possuir um cabeçalho com os campos Descrição, Tag, Método de pagamento, Valor, Moeda, Câmbio utilizado, Valor convertido, Moeda de conversão e Editar/Excluir.
 class FormExpenses extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      id: 0,
-      value: 0,
-      description: '',
-      currency: 'USD',
-      method: 'Dinheiro',
-      tag: 'Alimentação',
-      isButtonDisabled: true,
+      Valor: '',
+      descrição: '',
+      Moeda: '',
+      MétodoDePagamento: '',
+      Categoria: '',
+
     };
   }
 
@@ -23,26 +22,38 @@ class FormExpenses extends Component {
     dispatch(fetchCurrency());
   }
 
-  handleInputValue=({ target }) => {
-    const { value, name } = target;
-    this.setState({ [name]: value }, () => this.verify());
+  // handleInputValue=({ target }) => {
+  //   const { value, name } = target;
+  //   this.setState({ [name]: value }, () => this.verify());
+  // }
+
+  handleChanger = ({ target }) => {
+    this.setState((previusState) => ({
+      ...previusState,
+      [target.name]: target.value,
+    }));
   }
 
-  handleSubmit = (e) => {
-    e.preventDefault();
-    const { addFormToState } = this.props;
-    const { id, value, currency, method, tag, description } = this.state;
-    const inputData = { id, value, currency, method, tag, description };
+  //  handleSubmit = (e) => {
+  //    e.preventDefault();
+  //    const { addFormToState } = this.props;
+  //    const { Valor, descrição, Moeda, MétodoDePagamento, Categoria } = this.state;
+  //    const inputData = { Valor, descrição, Moeda, MétodoDePagamento, Categoria };
 
-    addFormToState(inputData);
-    this.setState({ value: '', description: '', id: '' });
-  }
+  //    addFormToState(inputData);
+  //    this.setState({ value: '', description: '', id: '' });
+  //  }
 
-  verify = () => {
-    const { method, tag } = this.state;
-    if (method === 'payment'
-      || tag === 'TAG') this.setState({ isButtonDisabled: true });
-    else { this.setState({ isButtonDisabled: false }); }
+  //  verify = () => {
+  //    const { method, tag } = this.state;
+  //    if (method === 'payment'
+  //     || tag === 'TAG') this.setState({ isButtonDisabled: true });
+  //    else { this.setState({ isButtonDisabled: false }); }
+  //  }
+  onClickButtonAddExpense = () => {
+    const { dispatch } = this.props;
+    dispatch(createState(this.state));
+    console.log('click');
   }
 
   render() {
@@ -51,14 +62,13 @@ class FormExpenses extends Component {
         currenciesArry,
       },
       state: {
-        value,
-        currency,
-        description,
-        method,
-        tag,
-        isButtonDisabled,
+        Valor,
+        descrição,
+        Moeda,
+        MétodoDePagamento,
+        Categoria,
       },
-      handleInputValue,
+      handleChanger,
       handleSubmit } = this;
 
     return (
@@ -68,33 +78,33 @@ class FormExpenses extends Component {
           <span>Valor da Despesa:</span>
           <input
             id=""
-            name="value"
+            name="Valor"
             data-testid="value-input"
             type="text"
-            onChange={ handleInputValue }
-            value={ value }
+            onChange={ handleChanger }
+            value={ Valor }
 
           />
 
           <span>Descrição:</span>
           <input
             id=""
-            name="description"
+            name="descrição"
             data-testid="description-input"
             type="text"
-            onChange={ handleInputValue }
-            value={ description }
+            onChange={ handleChanger }
+            value={ descrição }
 
           />
           <label htmlFor="currency">
             Moeda:
             <select
               id="currency"
-              name="currency"
+              name="Moeda"
               data-testid="currency-input"
-              onChange={ this.handleInputValue }
+              onChange={ handleChanger }
               arial-label="moeda"
-              value={ currency }
+              value={ Moeda }
             >
               { currenciesArry.map((coin, index) => (
                 <option
@@ -108,10 +118,10 @@ class FormExpenses extends Component {
           </label>
 
           <select
-            name="method"
+            name="MétodoDePagamento"
             data-testid="method-input"
-            onChange={ handleInputValue }
-            value={ method }
+            onChange={ handleChanger }
+            value={ MétodoDePagamento }
           >
             Pagamento
             <option>Dinheiro</option>
@@ -119,11 +129,12 @@ class FormExpenses extends Component {
             <option>Cartão de débito</option>
           </select>
 
+          Categoria
           <select
-            name="tag"
+            name="Categoria"
             data-testid="tag-input"
-            onChange={ handleInputValue }
-            value={ tag }
+            onChange={ handleChanger }
+            value={ Categoria }
           >
             <option>Alimentação</option>
             <option>Lazer</option>
@@ -135,20 +146,19 @@ class FormExpenses extends Component {
           <button
             type="button"
             value="Adicionar despesa"
-            onClick={ handleSubmit }
-            disabled={ isButtonDisabled }
+            onClick={ this.onClickButtonAddExpense }
           >
             Adicionar despesa
           </button>
-          <button
-            type="button"
-            onClick=""
+          {/* <button
+            type="submit"
+            onClick={ handleSubmit }
             name="editButton"
             value="Editar despesa"
             data-testid="edit-btn"
           >
             Editar despesa
-          </button>
+          </button> */}
         </form>
       </section>
     );
@@ -159,12 +169,11 @@ const mapStateToProps = (state) => ({
   currenciesArry: state.wallet.currencies,
   email: state.user.email,
   currencies: state.wallet.currencies,
-  expenses: state.wallet.expenses,
+  expensesState: state.wallet.expensesState,
   totalExpenses: state.wallet.totalExpenses,
 });
 
 FormExpenses.propTypes = {
-  addFormToState: PropTypes.func.isRequired,
   dispatch: PropTypes.func.isRequired,
   currenciesArry: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
 };

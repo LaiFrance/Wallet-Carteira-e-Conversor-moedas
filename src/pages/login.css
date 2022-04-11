@@ -1,6 +1,6 @@
 .container-center {
   align-items: center;
-  background: #6c7a89;
+  background: #a8bbcf;
   display: flex;
   flex-direction: row;
   height: 100vh;
@@ -27,7 +27,7 @@
 }
 
 .login-area img {
-  height: 130px;
+  height: 200px;
   padding: 20px;
   width: 170px;
 }
@@ -46,11 +46,13 @@ form h1 {
 }
 
 .login input {
+  width: 210px;
+  border: 2px solid black;
+  margin: 30px;
   background-color: white;
-  border: 0;
   border-radius: 7px;
   font-size: 15px;
-  height: 35px;
+  height: 45px;
   margin-bottom: 15px;
   padding: 10px;
 }
