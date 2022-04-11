@@ -1,39 +1,24 @@
 // Coloque aqui suas actions
-const EMAIL_ACTION = 'EMAIL_ACTION';
-const REQUEST_CURRENCY_ACTION = 'CURRENCY_ACTION';
-const RECEIVE_CURRENCY_ACTION_SUCCESS = 'CURRENCY_ACTION_SUCCESS';
-const EXPENSES_ACTION = 'EXPENSES_ACTION';
-const REQUEST_ASK = 'REQUEST_ASK';
-const RECEIVE_ASK = 'RECEIVE_ASK';
+export const EMAIL_ACTION = 'EMAIL_ACTION';
+export const REQUEST_CURRENCY_ACTION = 'CURRENCY_ACTION';
+export const RECEIVE_CURRENCY_ACTION_SUCCESS = 'CURRENCY_ACTION_SUCCESS';
+export const EXPENSES_ACTION = 'EXPENSES_ACTION';
+export const REQUEST_ASK = 'REQUEST_ASK';
+export const RECEIVE_ASK = 'RECEIVE_ASK';
+export const TOTAL_EXPENSES = 'TOTAL_EXPENSES';
 
 // const RECEIVE_CURRENCY_COIN= 'CURRENCY_COIN';
 // const RECEIVE_CURRENCY_ACTION_FAILURE = 'CURRENCY_ACTION_FAILURE';
+// email
 export const validaEmail = (email) => ({ type: EMAIL_ACTION, email }); // ESTRUTURA DO OBJETO
-
-const requestCurrencyAction = () => ({
-  type: REQUEST_CURRENCY_ACTION,
-
-});
-
+// api currencies
+export const requestCurrencyAction = () => ({ type: REQUEST_CURRENCY_ACTION });
 export const receiveCurrencyActionSuccess = (currencies) => ({
   type: RECEIVE_CURRENCY_ACTION_SUCCESS,
   currencies,
 });
 
-export const expensesAction = (expense) => ({
-  type: EXPENSES_ACTION,
-  expense,
-});
-
-// const receiveCoin = (coin) => ({
-//   type: RECEIVE_CURRENCY_COIN,
-//   coin,
-// });
-
-/* const receiveCurrencyActionFailure = (error) => ({
-  type: RECEIVE_CURRENCY_ACTION_FAILURE,
-  error,
-}); */
+export const expensesAction = (expense) => ({ type: EXPENSES_ACTION, expense });
 
 export const fetchCurrency = () => async (dispatch) => {
   // avisa para a aplicação que estamos iniciando o fetch
@@ -49,6 +34,11 @@ export const fetchCurrency = () => async (dispatch) => {
   // console.log(data);
   // ['USD', 'CAD', 'EUR', 'GBP', 'ARS', 'BTC', 'LTC', 'JPY', 'CHF', 'AUD', 'CNY', 'ILS', 'ETH', 'XRP', 'DOGE']
 };
+
+export const totalExpended = (totalExpenses) => ({
+  type: TOTAL_EXPENSES,
+  totalExpenses,
+});
 
 const requestAsk = () => ({ type: REQUEST_ASK });
 

@@ -3,15 +3,17 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { fetchCurrency } from '../actions';
 // A tabela deve possuir um cabeçalho com os campos Descrição, Tag, Método de pagamento, Valor, Moeda, Câmbio utilizado, Valor convertido, Moeda de conversão e Editar/Excluir.
-class WalletForm extends Component {
+class FormExpenses extends Component {
   constructor(props) {
     super(props);
+
     this.state = {
+      id: 0,
       value: 0,
-      currency: 'USD',
-      method: 'payment',
-      tag: 'TAG',
       description: '',
+      currency: 'USD',
+      method: 'Dinheiro',
+      tag: 'Alimentação',
       isButtonDisabled: true,
     };
   }
@@ -21,74 +23,76 @@ class WalletForm extends Component {
     dispatch(fetchCurrency());
   }
 
-  handleChange=({ target }) => {
+  handleInputValue=({ target }) => {
     const { value, name } = target;
-    this.setState({ [name]: value }, () => this.verifySelect());
+    this.setState({ [name]: value }, () => this.verify());
   }
 
   handleSubmit = (e) => {
     e.preventDefault();
-
     const { addFormToState } = this.props;
-    const { value, currency, method, tag, description } = this.state;
-    const inputData = { value, currency, method, tag, description };
+    const { id, value, currency, method, tag, description } = this.state;
+    const inputData = { id, value, currency, method, tag, description };
 
     addFormToState(inputData);
-    this.setState({ value: '0', description: '' });
+    this.setState({ value: '', description: '', id: '' });
   }
 
-  verifySelect = () => {
+  verify = () => {
     const { method, tag } = this.state;
     if (method === 'payment'
       || tag === 'TAG') this.setState({ isButtonDisabled: true });
-
-    else this.setState({ isButtonDisabled: false });
+    else { this.setState({ isButtonDisabled: false }); }
   }
 
   render() {
     const {
-      value,
-      currency,
-      description,
-      method,
-      tag,
-      isButtonDisabled,
-      handleChange,
-      handleSubmit } = this.state;
-    const { currencies } = this.props;
-    const currenciesArry = Object.values(currencies);
+      props: {
+        currenciesArry,
+      },
+      state: {
+        value,
+        currency,
+        description,
+        method,
+        tag,
+        isButtonDisabled,
+      },
+      handleInputValue,
+      handleSubmit } = this;
 
     return (
       <section>
         <form onSubmit={ handleSubmit }>
 
-          <span>Valor:</span>
+          <span>Valor da Despesa:</span>
           <input
             id=""
             name="value"
             data-testid="value-input"
-            type="number"
-            onChange={ handleChange }
+            type="text"
+            onChange={ handleInputValue }
             value={ value }
 
           />
 
           <span>Descrição:</span>
           <input
+            id=""
             name="description"
             data-testid="description-input"
             type="text"
-            onChange={ handleChange }
+            onChange={ handleInputValue }
             value={ description }
 
           />
           <label htmlFor="currency">
-            Moeda
+            Moeda:
             <select
               id="currency"
               name="currency"
               data-testid="currency-input"
-              onChange={ handleChange }
+              onChange={ this.handleInputValue }
               arial-label="moeda"
               value={ currency }
             >
@@ -106,15 +110,10 @@ class WalletForm extends Component {
           <select
             name="method"
             data-testid="method-input"
-            onChange={ handleChange }
+            onChange={ handleInputValue }
             value={ method }
           >
-            <option
-              value="payment"
-              disabled
-            >
-              Pagamento
-            </option>
+            Pagamento
             <option>Dinheiro</option>
             <option>Cartão de crédito</option>
             <option>Cartão de débito</option>
@@ -123,16 +122,9 @@ class WalletForm extends Component {
           <select
             name="tag"
             data-testid="tag-input"
-            onChange={ handleChange }
+            onChange={ handleInputValue }
             value={ tag }
           >
-            <option
-              value="TAG"
-              disabled
-            >
-              TAG
-            </option>
-
             <option>Alimentação</option>
             <option>Lazer</option>
             <option>Trabalho</option>
@@ -140,29 +132,39 @@ class WalletForm extends Component {
             <option>Saúde</option>
           </select>
 
-          <input
-            type="submit"
+          <button
+            type="button"
             value="Adicionar despesa"
             onClick={ handleSubmit }
             disabled={ isButtonDisabled }
-          />
+          >
+            Adicionar despesa
+          </button>
+
         </form>
       </section>
     );
   }
 }
 
-WalletForm.propTypes = {
-  addFormToState: PropTypes.func.isRequired,
-  dispatch: PropTypes.func.isRequired,
-  currencies: PropTypes.objectOf(PropTypes.object).isRequired,
-
-};
-
-const mapStateToProps = ({ wallet }) => ({
-  currencies: wallet.currencies,
-  expenses: wallet.expenses,
-  totalExpenses: wallet.totalExpenses,
+const mapStateToProps = (state) => ({
+  currenciesArry: state.wallet.currencies,
+  email: state.user.email,
+  currencies: state.wallet.currencies,
+  expenses: state.wallet.expenses,
+  totalExpenses: state.wallet.totalExpenses,
 });
 
-export default connect(mapStateToProps)(WalletForm);
+FormExpenses.propTypes = {
+  addFormToState: PropTypes.func.isRequired,
+  dispatch: PropTypes.func.isRequired,
+  currenciesArry: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
+};
+
+const mapDispatchToProps = (dispatch) => ({
+  addFormToState: (data) => dispatch(fetchCurrency(data)),
+  fetchCurrency: () => dispatch(fetchCurrency()),
+  dispatch: () => dispatch(fetchCurrency()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(FormExpenses);
