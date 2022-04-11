@@ -32,6 +32,7 @@ class ExpensesTable extends Component {
             >
               Excluir
             </button>
+
           </tr>
         </thead>
 

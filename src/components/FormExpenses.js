@@ -140,7 +140,15 @@ class FormExpenses extends Component {
           >
             Adicionar despesa
           </button>
-
+          <button
+            type="button"
+            onClick=""
+            name="editButton"
+            value="Editar despesa"
+            data-testid="edit-btn"
+          >
+            Editar despesa
+          </button>
         </form>
       </section>
     );
