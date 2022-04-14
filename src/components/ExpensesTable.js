@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 // import './index.css';
 import { deleteExpense } from '../actions';
+// import FormExpenses from './FormExpenses';
 // import PropTypes from 'prop-types';
 // import { connect } from 'react-redux';
 // import { fetchCurrency } from '../actions';
@@ -70,8 +71,9 @@ class ExpensesTable extends Component {
                   <button
                     data-testid="edit-btn"
                     type="button"
+                    onClick={ () => dispatch((id)) }
                   >
-                    Editar
+                    Editar Despesa
                   </button>
                   <button
                     data-testid="delete-btn"
@@ -80,6 +82,7 @@ class ExpensesTable extends Component {
                   >
                     Excluir
                   </button>
+
                 </td>
               </tr>
             );
