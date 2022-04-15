@@ -142,7 +142,7 @@ class FormExpenses extends Component {
                 </option>))}
             </select>
           </label>
-          Pagamento:
+          <span>Pagamento:</span>
           <select
             name="method"
             data-testid="method-input"
