@@ -1,18 +1,18 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { fetchCurrency, createState } from '../actions';
+import { fetchCurrency } from '../actions';
 // A tabela deve possuir um cabeçalho com os campos Descrição, Tag, Método de pagamento, Valor, Moeda, Câmbio utilizado, Valor convertido, Moeda de conversão e Editar/Excluir.
 class FormExpenses extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      Valor: '',
-      descrição: '',
-      Moeda: '',
-      MétodoDePagamento: '',
-      Categoria: '',
+      value: '',
+      currency: '',
+      method: '',
+      tag: '',
+      description: '',
 
     };
   }
@@ -27,7 +27,7 @@ class FormExpenses extends Component {
   //   this.setState({ [name]: value }, () => this.verify());
   // }
 
-  handleChanger = ({ target }) => {
+  handleChange = ({ target }) => {
     this.setState((previusState) => ({
       ...previusState,
       [target.name]: target.value,
@@ -50,11 +50,38 @@ class FormExpenses extends Component {
   //     || tag === 'TAG') this.setState({ isButtonDisabled: true });
   //    else { this.setState({ isButtonDisabled: false }); }
   //  }
-  onClickButtonAddExpense = () => {
-    const { dispatch } = this.props;
-    dispatch(createState(this.state));
-    console.log('click');
-  }
+  onClickButtonAddExpense = async () => {
+    const { dispatch, expenses } = this.props;
+    // console.log(expenses);
+    const { value, currency, method, tag, description } = this.state;
+    // console.log(value, currency, method, tag, description);
+    const request = await
+    fetch('https://economia.awesomeapi.com.br/json/all');
+    const data = await request.json();
+    delete data.USDT;
+    delete data.DOGE;
+
+    fetchCurrency();
+    // console.log(currentExchange);
+    dispatch({
+      type: 'EXPENSES',
+      payload: {
+        id: expenses.length,
+        value,
+        currency,
+        method,
+        tag,
+        description,
+        exchangeRates: data,
+      },
+    });
+    this.setState((prevState) => ({
+      ...prevState,
+      value: '0',
+      description: '',
+    }
+    ));
+  };
 
   render() {
     const {
@@ -62,49 +89,48 @@ class FormExpenses extends Component {
         currenciesArry,
       },
       state: {
-        Valor,
-        descrição,
-        Moeda,
-        MétodoDePagamento,
-        Categoria,
+        value,
+        currency,
+        method,
+        tag,
+        description,
       },
-      handleChanger,
-      handleSubmit } = this;
+      handleChange } = this;
 
     return (
-      <section>
-        <form onSubmit={ handleSubmit }>
-
-          <span>Valor da Despesa:</span>
-          <input
-            id=""
-            name="Valor"
-            data-testid="value-input"
-            type="text"
-            onChange={ handleChanger }
-            value={ Valor }
-
-          />
-
-          <span>Descrição:</span>
-          <input
-            id=""
-            name="descrição"
-            data-testid="description-input"
-            type="text"
-            onChange={ handleChanger }
-            value={ descrição }
-
-          />
+      <div>
+        <form>
+          <label htmlFor="valueInput">
+            <span>Valor:</span>
+            <input
+              id="valueInput"
+              name="value"
+              data-testid="value-input"
+              type="number"
+              onChange={ handleChange }
+              value={ value }
+            />
+          </label>
+          <label htmlFor="description-input">
+            <span>Descrição:</span>
+            <input
+              id="description-input"
+              name="description"
+              data-testid="description-input"
+              type="text"
+              onChange={ handleChange }
+              value={ description }
+            />
+          </label>
           <label htmlFor="currency">
             Moeda:
             <select
               id="currency"
-              name="Moeda"
+              name="currency"
               data-testid="currency-input"
-              onChange={ handleChanger }
-              arial-label="moeda"
-              value={ Moeda }
+              onChange={ handleChange }
+              arial-label="currency"
+              value={ currency }
             >
               { currenciesArry.map((coin, index) => (
                 <option
@@ -116,33 +142,33 @@ class FormExpenses extends Component {
                 </option>))}
             </select>
           </label>
-
+          Pagamento:
           <select
-            name="MétodoDePagamento"
+            name="method"
             data-testid="method-input"
-            onChange={ handleChanger }
-            value={ MétodoDePagamento }
+            onChange={ handleChange }
+            value={ method }
           >
-            Pagamento
             <option>Dinheiro</option>
             <option>Cartão de crédito</option>
             <option>Cartão de débito</option>
           </select>
-
-          Categoria
-          <select
-            name="Categoria"
-            data-testid="tag-input"
-            onChange={ handleChanger }
-            value={ Categoria }
-          >
-            <option>Alimentação</option>
-            <option>Lazer</option>
-            <option>Trabalho</option>
-            <option>Transporte</option>
-            <option>Saúde</option>
-          </select>
-
+          <label htmlFor="tag-input">
+            Categoria
+            <select
+              id="tag-input"
+              name="tag"
+              data-testid="tag-input"
+              onChange={ handleChange }
+              value={ tag }
+            >
+              <option value="Alimentação">Alimentação</option>
+              <option value="Lazer">Lazer</option>
+              <option value="Trabalho">Trabalho</option>
+              <option value="Trasporte">Transporte</option>
+              <option value="Saúde">Saúde</option>
+            </select>
+          </label>
           <button
             type="button"
             value="Adicionar despesa"
@@ -160,7 +186,7 @@ class FormExpenses extends Component {
             Editar despesa
           </button> */}
         </form>
-      </section>
+      </div>
     );
   }
 }
@@ -169,19 +195,18 @@ const mapStateToProps = (state) => ({
   currenciesArry: state.wallet.currencies,
   email: state.user.email,
   currencies: state.wallet.currencies,
-  expensesState: state.wallet.expensesState,
-  totalExpenses: state.wallet.totalExpenses,
+  expenses: state.wallet.expenses,
 });
 
 FormExpenses.propTypes = {
   dispatch: PropTypes.func.isRequired,
   currenciesArry: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
+  expenses: PropTypes.arrayOf.isRequired,
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  addFormToState: (data) => dispatch(fetchCurrency(data)),
-  fetchCurrency: () => dispatch(fetchCurrency()),
-  dispatch: () => dispatch(fetchCurrency()),
-});
+// const mapDispatchToProps = (dispatch) => ({
+//   // fetchCurrency: () => dispatch(adicionaExpenses()),
+//   dispatch: () => dispatch(fetchCurrency()),
+// });
 
-export default connect(mapStateToProps, mapDispatchToProps)(FormExpenses);
+export default connect(mapStateToProps)(FormExpenses);
